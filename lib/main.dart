@@ -11,14 +11,16 @@ class MyApp extends StatefulWidget {
   }
 }
 
-
-class MyAppState extends State<MyApp>
-{
+class MyAppState extends State<MyApp> {
   int ok = 0;
-  var speech = ['To know is to know that you know nothing', 'I go to school','ok bye','good night'];
+  var speech = [
+    'To know is to know that you know nothing',
+    'I go to school',
+    'ok bye',
+    'good night'
+  ];
 
   void click() {
-
     setState(() {
       ok++;
     });
@@ -34,7 +36,7 @@ class MyAppState extends State<MyApp>
         ),
         body: Column(
           children: [
-            Text(speech[ok%speech.length]),
+            Text(speech[ok % speech.length]),
             ElevatedButton(child: Text('bh'), onPressed: click)
           ],
         ),
