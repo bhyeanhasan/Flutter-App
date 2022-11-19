@@ -15,20 +15,30 @@ class MyApp extends StatefulWidget {
 
 class MyAppState extends State<MyApp> {
   int ok = 0;
+  int score = 0;
   var speech = [
     {
       'question': 'How are you?',
-      'answer': ['fine', 'normal', 'bad'],
+      'answer': [
+        {'option': 'fine', 'score': 100},
+        {'option': 'normal', 'score': 50},
+        {'option': 'bad', 'score': 0},
+      ],
     },
     {
       'question': 'How old are you?',
-      'answer': ['18-', '18', '18+'],
+      'answer': [
+        {'option': '18-', 'score': 100},
+        {'option': '18', 'score': 50},
+        {'option': '18+', 'score': 0},
+      ],
     },
   ];
 
-  void click() {
+  void click(int x) {
     setState(() {
       ok++;
+      score+=x;
     });
     print(speech[ok % speech.length]['question']);
   }
@@ -36,6 +46,7 @@ class MyAppState extends State<MyApp> {
   void again() {
     setState(() {
       ok = 0;
+      score=0;
     });
   }
 
@@ -55,14 +66,17 @@ class MyAppState extends State<MyApp> {
             ? Column(
                 children: [
                   Question(speech[ok % 2]['question'] as String),
-                  ...(speech[ok % speech.length]['answer'] as List<String>)
+                  ...(speech[ok % speech.length]['answer'] as List<Map<String, Object>>)
                       .map((ans) {
-                    return Answer(click, ans);
+                    return Answer( ()=> click(ans['score'] as int), ans['option'] as String);
                   }).toList()
                 ],
               )
             : Center(
-                child:ElevatedButton(onPressed: again,child: Text('Reset'),),
+                child: ElevatedButton(
+                  onPressed: again,
+                  child: Text(score.toString()),
+                ),
               ),
       ),
     );
