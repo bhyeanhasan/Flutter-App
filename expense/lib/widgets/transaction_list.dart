@@ -21,13 +21,14 @@ class TransactionList extends StatelessWidget {
                       const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
                   padding: const EdgeInsets.all(10),
                   decoration: BoxDecoration(
-                      border: Border.all(color: Colors.purple, width: 2)),
+                      border: Border.all(
+                          color: Theme.of(context).primaryColor, width: 2)),
                   child: Text(
-                    '৳: ${transactions[index].amount}',
-                    style: const TextStyle(
+                    '৳: ${transactions[index].amount.toStringAsFixed(2)}',
+                    style: TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 20,
-                        color: Colors.purple),
+                        color: Theme.of(context).primaryColor),
                   ),
                 ),
                 Column(
