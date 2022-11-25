@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class NewTransaction extends StatefulWidget {
   Function add;
@@ -11,17 +12,36 @@ class NewTransaction extends StatefulWidget {
 
 class _NewTransactionState extends State<NewTransaction> {
   final titleval = TextEditingController();
-
   final amountval = TextEditingController();
+  DateTime date = DateTime(2019);
 
   void submitAction() {
     String title = titleval.text;
-    double amount = double.parse(amountval.text);
-    if (title.isEmpty || amount <= 0.0) {
+
+    if (title.isEmpty || amountval.text == null) {
       return;
     }
-    widget.add(title, amount);
+    double amount = double.parse(amountval.text);
+
+    widget.add(title, amount, date);
     Navigator.of(context).pop();
+  }
+
+  void showDate() {
+    showDatePicker(
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime(2022),
+      lastDate: DateTime.now(),
+    ).then((value) {
+      if (value == null) {
+        return;
+      } else {
+        setState(() {
+          date = value;
+        });
+      }
+    });
   }
 
   @override
@@ -43,13 +63,27 @@ class _NewTransactionState extends State<NewTransaction> {
               keyboardType: TextInputType.number,
               onSubmitted: (_) => submitAction(),
             ),
-            TextButton(
+            SizedBox(
+              height: 100,
+              child: Row(
+                children: [
+                  Text(date == DateTime(2019)
+                      ? 'No date chosen!'
+                      : 'Picked Date: ${DateFormat.yMd().format(date).toString()}'),
+                  Expanded(
+                    child: TextButton(
+                      onPressed: showDate,
+                      child: const Text('Choose Date',
+                          style: TextStyle(color: Colors.green)),
+                    ),
+                  )
+                ],
+              ),
+            ),
+            ElevatedButton(
               onPressed: submitAction,
-              style: ButtonStyle(
-                  foregroundColor:
-                      MaterialStateProperty.all(Colors.deepOrange)),
-              child: const Text('Save'),
-            )
+              child: const Text('Save Transaction'),
+            ),
           ],
         ),
       ),

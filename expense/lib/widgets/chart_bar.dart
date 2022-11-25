@@ -11,7 +11,8 @@ class ChartBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Text('\$ ${totalamount}'),
+        Container(
+            height: 15, child: FittedBox(child: Text('\$ ${totalamount}'))),
         Container(
           height: 60,
           width: 10,

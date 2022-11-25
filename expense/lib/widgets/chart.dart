@@ -27,9 +27,7 @@ class _ChartState extends State<Chart> {
         }
       }
       return {'day': DateFormat.E().format(weekday), 'amount': totalsum};
-      print(DateFormat.E().format(weekday));
-      print(totalsum);
-    });
+    }).reversed.toList();
   }
 
   double get maxspend {
@@ -40,15 +38,23 @@ class _ChartState extends State<Chart> {
 
   @override
   Widget build(BuildContext context) {
-    print(chartvalucount);
     return Card(
       elevation: 20,
       margin: EdgeInsets.all(10),
-      child: Row(
-        children: chartvalucount.map((data) {
-          return ChartBar(data['day'].toString(), (data['amount'] as double),
-              (data['amount'] as double) / maxspend);
-        }).toList(),
+      child: Container(
+        padding: EdgeInsets.all(5),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: chartvalucount.map((data) {
+            return Flexible(
+              fit: FlexFit.tight,
+              child: ChartBar(
+                  data['day'].toString(),
+                  (data['amount'] as double),
+                  maxspend == 0 ? 0 : (data['amount'] as double) / maxspend),
+            );
+          }).toList(),
+        ),
       ),
     );
   }
