@@ -18,7 +18,7 @@ class _NewTransactionState extends State<NewTransaction> {
   void submitAction() {
     String title = titleval.text;
 
-    if (title.isEmpty || amountval.text == null) {
+    if (title.isEmpty || amountval.text == '' || date == DateTime(2019)) {
       return;
     }
     double amount = double.parse(amountval.text);

@@ -68,28 +68,41 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
+    var apbar = AppBar(
+      title: const Text('Expense List'),
+      actions: [
+        IconButton(
+            onPressed: () => addPage(context),
+            icon: const Icon(
+              Icons.add,
+              size: 30,
+            ))
+      ],
+    );
+
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Expense List'),
-        actions: [
-          IconButton(
-              onPressed: () => addPage(context),
-              icon: const Icon(
-                Icons.add,
-                size: 30,
-              ))
-        ],
-      ),
+      appBar: apbar,
       body: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          Image.asset(
-            'assets/images/room.jpg',
-            fit: BoxFit.fitWidth,
-          ),
-          Chart(recent),
-          TransactionList(transactions, deleteTransaction),
+          // Image.asset(
+          //   'assets/images/room.jpg',
+          //   fit: BoxFit.fitWidth,
+          //   height: MediaQuery.of(context).size.height * 0.2,
+          // ),
+          Container(
+              height: (MediaQuery.of(context).size.height -
+                      apbar.preferredSize.height -
+                      MediaQuery.of(context).padding.top) *
+                  0.2,
+              child: Chart(recent)),
+          Container(
+              height: (MediaQuery.of(context).size.height -
+                      apbar.preferredSize.height -
+                      MediaQuery.of(context).padding.top) *
+                  0.8,
+              child: TransactionList(transactions, deleteTransaction)),
         ],
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
