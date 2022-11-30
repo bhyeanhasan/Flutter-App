@@ -5,7 +5,7 @@ class ChartBar extends StatelessWidget {
   final double totalamount;
   final double parcent;
 
-  ChartBar(this.day, this.totalamount, this.parcent);
+  const ChartBar(this.day, this.totalamount, this.parcent);
 
   @override
   Widget build(BuildContext context) {
@@ -13,17 +13,17 @@ class ChartBar extends StatelessWidget {
       return Column(
         children: [
           Container(
-              height: constrains.maxHeight * 0.2,
+              height: constrains.maxHeight * 0.15,
               child: FittedBox(child: Text('\$ ${totalamount}'))),
           Container(
-            height: constrains.maxHeight * 0.5,
+            height: constrains.maxHeight * 0.6,
             width: 10,
             child: Stack(
               children: [
                 Container(
                   decoration: BoxDecoration(
                       border: Border.all(color: Colors.black, width: 1),
-                      color: Color.fromRGBO(220, 220, 200, 1),
+                      color: const Color.fromRGBO(220, 220, 200, 1),
                       borderRadius: BorderRadius.circular(20)),
                 ),
                 FractionallySizedBox(
@@ -37,7 +37,7 @@ class ChartBar extends StatelessWidget {
               ],
             ),
           ),
-          Container(height: constrains.maxHeight * 0.2, child: Text(day))
+          Container(height: constrains.maxHeight * 0.15, child: Text(day))
         ],
       );
     });

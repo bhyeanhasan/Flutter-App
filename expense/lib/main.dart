@@ -66,8 +66,13 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
+  bool showchart = false;
+
   @override
   Widget build(BuildContext context) {
+    bool landscape =
+        MediaQuery.of(context).orientation == Orientation.landscape;
+
     var apbar = AppBar(
       title: const Text('Expense List'),
       actions: [
@@ -80,6 +85,13 @@ class _MyHomePageState extends State<MyHomePage> {
       ],
     );
 
+    var transactionWidget = Container(
+        height: (MediaQuery.of(context).size.height -
+                apbar.preferredSize.height -
+                MediaQuery.of(context).padding.top) *
+            0.8,
+        child: TransactionList(transactions, deleteTransaction));
+
     return Scaffold(
       appBar: apbar,
       body: Column(
@@ -91,18 +103,38 @@ class _MyHomePageState extends State<MyHomePage> {
           //   fit: BoxFit.fitWidth,
           //   height: MediaQuery.of(context).size.height * 0.2,
           // ),
-          Container(
-              height: (MediaQuery.of(context).size.height -
-                      apbar.preferredSize.height -
-                      MediaQuery.of(context).padding.top) *
-                  0.2,
-              child: Chart(recent)),
-          Container(
-              height: (MediaQuery.of(context).size.height -
-                      apbar.preferredSize.height -
-                      MediaQuery.of(context).padding.top) *
-                  0.8,
-              child: TransactionList(transactions, deleteTransaction)),
+
+          if (landscape)
+            Column(
+              children: [
+                Switch(
+                    value: showchart,
+                    onChanged: (val) {
+                      setState(() {
+                        showchart = val;
+                      });
+                    })
+              ],
+            ),
+
+          if (landscape)
+            showchart
+                ? Container(
+                    height: (MediaQuery.of(context).size.height -
+                            apbar.preferredSize.height -
+                            MediaQuery.of(context).padding.top) *
+                        .7,
+                    child: Chart(recent))
+                : transactionWidget,
+
+          if (!landscape)
+            Container(
+                height: (MediaQuery.of(context).size.height -
+                        apbar.preferredSize.height -
+                        MediaQuery.of(context).padding.top) *
+                    .2,
+                child: Chart(recent)),
+          if (!landscape) transactionWidget,
         ],
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
